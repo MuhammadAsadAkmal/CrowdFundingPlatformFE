@@ -105,7 +105,7 @@ const Donate = ({ setCurrentPage }) => {
 						</tr>
 					</thead>
 					<tbody>
-						{charities.map((charity, index) => (
+						{/* {charities.map((charity, index) => (
 							<tr key={index}>
 								<td className={styles.td}>{index + 1}</td>
 								<td className={styles.td}>{charity.name}</td>
@@ -129,7 +129,35 @@ const Donate = ({ setCurrentPage }) => {
 									</button>
 								</td>
 							</tr>
-						))}
+						))} */}
+
+						{charities
+							.filter((charity) => !charity.finalized) // Filter out finalized charities
+							.map((charity, index) => (
+								<tr key={index}>
+									<td className={styles.td}>{index + 1}</td>
+									<td className={styles.td}>{charity.name}</td>
+									<td className={styles.td}>{charity.goalAmount}</td>
+									<td className={styles.td}>
+										<CountdownTimer unixTimestamp={charity.endTime} />
+									</td>
+									<td className={styles.td}>{charity.fundsRaised}</td>
+									<td className={styles.td}>
+										{charity.finalized ? 'Yes' : 'No'}
+									</td>
+									<td className={styles.td}>{charity.creator}</td>
+									<td className={styles.td}>
+										<button
+											className='btn btn-primary'
+											onClick={() => {
+												handleDonateClick(charity);
+											}}
+										>
+											Donate
+										</button>
+									</td>
+								</tr>
+							))}
 					</tbody>
 				</table>
 				{donationModalVisible && (
